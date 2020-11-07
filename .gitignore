@@ -45,7 +45,7 @@ tmp/
 *.swp
 *~.nib
 local.properties
-/womensave/src/main/resources/application.properties
+**/src/main/resources/application.properties
 .settings/
 .loadpath
 .recommenders
