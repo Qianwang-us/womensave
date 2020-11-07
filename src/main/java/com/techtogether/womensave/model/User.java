@@ -32,5 +32,8 @@ public class User {
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private List<Goal> yearGoals;
 	
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	private List<SaveRecord> saveRecords;
+	
 
 }
