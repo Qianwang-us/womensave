@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Header</title>
+</head>
+
+<body>
+  <header th:fragment="header">
+    <!-- header top -->
+    
+	  <div class="header-top-container">
+	    <th:block th:if="${session.currentUser} != null">
+	      <div class="login">
+      			Welcome, <span th:text="${session.currentUser.firstName}"></span>     	
+        	<a th:href="@{/logout}">Logout</a>
+          </div>        
+      	</th:block>
+      
+      	<!-- Show Sign In|Register if user not login yet-->
+	      <th:block th:if="${session.currentUser} == null">
+	      	<div class="login">
+	        	<a th:href="@{/login}">Sign In</a> | <a th:href="@{/register}">Register</a>
+	        </div>
+	      </th:block>
+	 </div>
+    <!-- header menu bar -->
+    <div class="header-menu-container">
+      <div class="menu-item-logo">
+        <h1><a th:href="@{/}"><span>We</span><i class="fas fa-heart"></i><span>Save</span></a></h1>
+      </div>
+      <nav class="menu-item">
+        <ul>
+          <li>
+             <div>Calculate
+             </div>
+          </li>
+          <li>
+             <div>Track
+             </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+</body>
+
+</html>
+>

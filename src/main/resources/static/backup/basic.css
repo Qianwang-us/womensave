@@ -1,0 +1,24 @@
+:root {
+  /* colors */
+  --logo-color:#BB8FCE;
+
+
+  /* fonts */
+
+  --menu-font-family:"Mier-A","Helvetica","Arial",sans-serif;
+  --main-font-family:"Mier-A","Helvetica","Arial",sans-serif
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: 'Roboto', sans-serif;
+}
+
