@@ -14,6 +14,12 @@
 
 <body>
   <div th:replace="fragments/header :: header"></div>
+  
+   <th:block th:if="${session.currentUser} != null">
+	      <div >
+        	<a th:href="@{/dashboard}"><button>Go to Dashboard</button></a>
+          </div>        
+      	</th:block>
  </body>
 
 </html>

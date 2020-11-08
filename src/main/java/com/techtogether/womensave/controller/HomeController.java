@@ -35,7 +35,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showHomePage() {
-		return "index";
+		return "index2";
 	}
 	
 	//user does not login yet, but use calculate function to get report
@@ -82,7 +82,7 @@ public class HomeController {
 			model.addAttribute("yearGoal", yearGoal);
 			
 			List<SaveRecord> saveRecordList = saveRecordRepository.findByYearAndUser(year, currentUser);
-			DashBoardInfoUtil dashboard = new DashBoardInfoUtil(yearGoal/12, saveRecordList);
+			DashBoardInfoUtil dashboard = new DashBoardInfoUtil((double)Math.round(yearGoal/12*100)/100, saveRecordList);
 			
 			List<MonthRecordDTO> records = dashboard.getMonthRecords();
 			
@@ -140,15 +140,51 @@ public class HomeController {
 		}
 		
 		//from track button in the dashboard
+//		@GetMapping("/track/view")
+//		public String trackView(@ModelAttribute("record") MonthRecordDTO monthRecord, HttpSession session, Model model) {
+//			model.addAttribute("record", monthRecord);
+//			
+//			return "track";
+//		}
+		
 		@GetMapping("/track/view")
-		public String trackView(@ModelAttribute("month_record") MonthRecordDTO monthRecord, HttpSession session, Model model) {
-			model.addAttribute("record", monthRecord);
+		public String trackView(@RequestParam("monthIndex") int monthIndex, 
+				@RequestParam("monthName") String monthName, 
+				@RequestParam("monthSaveGoal") double monthSaveGoal, 
+				@RequestParam("monthSavedMoney") double monthSavedMoney, 
+				@RequestParam("achieved") boolean achieved, 
+				HttpSession session, Model model) {
+			MonthRecordDTO oneRecord = new MonthRecordDTO(monthIndex, monthName, monthSaveGoal, monthSavedMoney, achieved);
+			model.addAttribute("record", oneRecord);
 			
+			if(achieved) {
+				model.addAttribute("message", " You are doing amazing! Your goal is achieved!");
+			}else {
+				model.addAttribute("message", " You are making progress! You still have $" + (monthSaveGoal - monthSavedMoney)+" to go");
+			}
+			
+			System.out.println("HomeController, trackView: oneRecord: "+oneRecord);
 			return "track";
 		}
 		
-		@GetMapping("/track/add")
-		public String trackAdd(@ModelAttribute("month_record") MonthRecordDTO monthRecord, HttpSession session, @RequestParam double addAmount, Model model) {
+//		@GetMapping("/track/add")
+//		public String trackAdd(@ModelAttribute("month_record") MonthRecordDTO monthRecord, HttpSession session, @RequestParam double addAmount, Model model) {
+//			User currentUser = (User)session.getAttribute("currentUser");
+//			Optional<SaveRecord> saveRecord= saveRecordRepository.findByYearAndMonthAndUser(LocalDate.now().getYear(), monthRecord.getMonthIndex(), currentUser);
+//			SaveRecord oneRecord;		
+//			if(saveRecord.isEmpty()) {
+//				oneRecord = new SaveRecord(LocalDate.now().getYear(), monthRecord.getMonthIndex(), addAmount, currentUser);
+//			}else {
+//				oneRecord = saveRecord.get();
+//				oneRecord.setMonthSavedAmount(monthRecord.getMonthSavedMoney()+addAmount);
+//				saveRecordRepository.save(oneRecord);
+//			}
+//			//new SaveRecord(LocalDate.now().getYear(), monthRecord.getMonthIndex(), monthRecord.getMonthSavedMoney()+addAmount, currentUser);
+//			return "redirect:/dashboard";
+//		}
+		
+		@PostMapping("/track/add")
+		public String trackAdd(@ModelAttribute("record") MonthRecordDTO monthRecord, HttpSession session, @RequestParam double addAmount, Model model) {
 			User currentUser = (User)session.getAttribute("currentUser");
 			Optional<SaveRecord> saveRecord= saveRecordRepository.findByYearAndMonthAndUser(LocalDate.now().getYear(), monthRecord.getMonthIndex(), currentUser);
 			SaveRecord oneRecord;		
@@ -157,8 +193,10 @@ public class HomeController {
 			}else {
 				oneRecord = saveRecord.get();
 				oneRecord.setMonthSavedAmount(monthRecord.getMonthSavedMoney()+addAmount);
-				saveRecordRepository.save(oneRecord);
+				
 			}
+			
+			saveRecordRepository.save(oneRecord);
 			//new SaveRecord(LocalDate.now().getYear(), monthRecord.getMonthIndex(), monthRecord.getMonthSavedMoney()+addAmount, currentUser);
 			return "redirect:/dashboard";
 		}

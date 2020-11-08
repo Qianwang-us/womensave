@@ -14,6 +14,42 @@
 
 <body>
   <div th:replace="fragments/header :: header"></div>
+  
+  <div>
+   <span th:text="${session.currentUser.name}"></span>
+     <!-- <div >Annual Progress $0</div> -->
+     <a href="@{/logout}">Sign Out</a>
+   </div>
+   <h2>
+   	<span th:text="${record.monthName}"></span>
+   </h2>
+   
+   <hr>
+   <div><a th:href="@{/dashboard}"><button>Back To Dashboard</button></a></div>
+   <p>Your goal this month is to save <span th:text="${record.monthSaveGoal}"></span> in your savings account by **DUE DATE
+   </p>
+   <div>
+   <label>Running monthly total: </label>
+   <input type="number" th:value="${record.monthSavedMoney}" readonly>
+   </div>
+   
+   <div>
+   <form action="#" th:action="@{/track/add}" method="POST" th:object="${record}">
+   	<input type="hidden" th:field="*{monthIndex}">
+	<input type="hidden" th:field="*{monthName}">
+    <input type="hidden" th:field="*{monthSaveGoal}">
+    <input type="hidden" th:field="*{monthSavedMoney}">
+    <input type="hidden" th:field="*{achieved}">
+   <label>Extra amount saved: </label>
+   <input type="number" name="addAmount" value="0">
+   <button type="submit">Save Amount</button>
+   </form>
+   </div>
+    
+    <hr>
+    <div>
+    <span th:text="${message}"></span>
+    </div>
   </body>
 
 </html>
