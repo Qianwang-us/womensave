@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
-<link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -30,16 +30,16 @@
       }
     </style>
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="../css/login.css">
   </head>
   <body class="text-center">
     <div th:replace="fragments/header :: header"></div>
-    <form class="form-signin">
+    <form class="form-signin" action="#" th:action="@{/login/authenticate}" method="post">
   <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
 
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>

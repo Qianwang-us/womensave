@@ -68,7 +68,14 @@ public class HomeController {
 			int year = LocalDate.now().getYear();
 			model.addAttribute("year", year);
 			
-			Goal goal = (Goal)(goalRepository.findByYearAndUser(year, currentUser).get());
+			Optional<Goal> goalOption = goalRepository.findByYearAndUser(year, currentUser);
+			
+			if(goalOption.isEmpty()) {
+				model.addAttribute("noRecord", true);
+				return "dashboard";
+			}
+			
+			Goal goal = goalOption.get();
 			double yearGoal = goal.getYearGoal();
 			
 			//fill with year goal
@@ -80,6 +87,8 @@ public class HomeController {
 			List<MonthRecordDTO> records = dashboard.getMonthRecords();
 			
 			model.addAttribute("records", records);
+			
+			System.out.println("showDashboardWithCal: records: "+records);
 			
 			return "dashboard";
 		}
@@ -102,20 +111,31 @@ public class HomeController {
 			int year = LocalDate.now().getYear();
 			model.addAttribute("year", year);
 			
-			//save result to user's year goal and month save records
-			Goal goal = new Goal(year, P*12, currentUser);
+			Optional<Goal> goalOption = goalRepository.findByYearAndUser(year, currentUser);
+			Goal goal;
+			double yearGoal = ((double)Math.round(P*12*100))/100;
+			model.addAttribute("yearGoal", yearGoal);
 			
-			goalRepository.save(goal);
+			if(goalOption.isEmpty()) {
+				goal = new Goal(year, yearGoal, currentUser);
+				goalRepository.save(goal);
+			}else {
+				goal = goalOption.get();
+				goal.setYearGoal(yearGoal);
+				goalRepository.save(goal);
+			}
 			
-			double yearGoal = P*12;
 			model.addAttribute("yearGoal", yearGoal);
 			
 			List<SaveRecord> saveRecordList = saveRecordRepository.findByYearAndUser(year, currentUser);
-			DashBoardInfoUtil dashboard = new DashBoardInfoUtil(P, saveRecordList);
+			
+			DashBoardInfoUtil dashboard = new DashBoardInfoUtil(((double)Math.round(P*100))/100, saveRecordList);
 			
 			List<MonthRecordDTO> records = dashboard.getMonthRecords();
 			
 			model.addAttribute("records", records);
+			
+			System.out.println("showDashboardWithCal: records: "+records);
 			return "dashboard";
 		}
 		

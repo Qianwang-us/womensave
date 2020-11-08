@@ -8,7 +8,7 @@ package com.techtogether.womensave.util;
 public class GoalCalUtil {
 	private static final double r = 0.06;//annual return rate as a decimal (assume 6%)
 	private static final int n = 12; //number of payment periods per year (12)
-	private static final int lifeExpectancy = 100;
+	private static final int lifeExpectancy = 85;
 
 	public static double calMonthSave(double annualIncome, int currentAge, int expectedRetireAge) {
 		double A;//total retirement saving balance
@@ -27,6 +27,7 @@ public class GoalCalUtil {
 		double divider = Math.pow((1+r/n), n*T) - 1;
 		
 		P = diviend/divider;
+		//P = ((double)Math.round(diviend/divider*100))/100;
 		
 		return P;
 	}

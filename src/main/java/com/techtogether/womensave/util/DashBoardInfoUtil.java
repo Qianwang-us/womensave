@@ -23,6 +23,7 @@ public class DashBoardInfoUtil {
 		Double[] monthSavedArray = getMonthSavedAmout();
 		for(int i = 0; i<12; i++) {
 			boolean isAchieved = (monthGoal <= monthSavedArray[i]);
+			System.out.println("DashBoardInfoUtil: getMonthRecords: isAchieved:"+isAchieved);
 			MonthRecordDTO monthRecord = new MonthRecordDTO(i+1, monthNameList[i], monthGoal, monthSavedArray[i], isAchieved);
 			monthRecords.add(monthRecord);
 		}
@@ -32,7 +33,7 @@ public class DashBoardInfoUtil {
 	
 	private Double[] getMonthSavedAmout() {
 		Double[] monthSavedArray = new Double[12];
-		Arrays.fill(monthSavedArray, 0);
+		Arrays.fill(monthSavedArray, 0.0);
 		if(monthSavedRecords == null || monthSavedRecords.size()==0) {
 			return monthSavedArray;
 		}

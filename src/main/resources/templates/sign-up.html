@@ -11,7 +11,8 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
 
     <!-- Bootstrap core CSS -->
-<link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -30,7 +31,7 @@
       }
     </style>
     <!-- Custom styles for this template -->
-    <link href="../static/css/form-validation.css" rel="stylesheet">
+    <link href="../css/form-validation.css" rel="stylesheet">
   </head>
   <body class="bg-light">
     <div th:replace="fragments/header :: header"></div>
@@ -43,11 +44,12 @@
   <div class="row">
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Account Details</h4>
-      <form class="needs-validation" novalidate>
+      <!-- <form class="needs-validation" novalidate> -->
+      <form action="#" th:action="@{/register/save}" th:object="${user}" method="post" class="needs-validation" novalidate>
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="fullName">Full name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+            <input type="text" class="form-control" id="fullName" placeholder="" th:field="*{name}" required>
             <div class="invalid-feedback">
               Valid name is required.
             </div>
@@ -56,7 +58,7 @@
 
         <div class="mb-3">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+          <input type="email" class="form-control" id="email" placeholder="you@example.com" th:field="*{email}" required>
           <div class="invalid-feedback">
             Please enter a valid email address.
           </div>
@@ -64,7 +66,7 @@
 
         <div class="mb-3">
           <label for="password">Password</label>
-          <input type="password" id="password" class="form-control" placeholder="Password" required>
+          <input type="password" id="password" class="form-control" placeholder="Password" th:field="*{password}" required>
           <div class="invalid-feedback" style="width: 100%;">
             Your password is required.
           </div>
@@ -79,7 +81,10 @@
   <footer class="my-5 pt-5 text-muted text-center text-small">
   </footer>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="form-validation.js"></script></body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<!-- <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery.slim.min.js"><\/script>')</script> -->
+<!-- <script src="./assets/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/form-validation.js"></script></body>
 </html>

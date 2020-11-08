@@ -7,7 +7,7 @@ public class MonthRecordDTO {
 	private String monthName;
 	private double monthSaveGoal;
 	private double monthSavedMoney;
-	private boolean isAchieved;
+	private boolean achieved=false;
 	//private Date dueDate;
 	
 	public MonthRecordDTO() {
@@ -19,7 +19,7 @@ public class MonthRecordDTO {
 		this.monthName = monthName;
 		this.monthSaveGoal = monthSaveGoal;
 		this.monthSavedMoney = monthSavedMoney;
-		this.isAchieved = isAchieved;
+		this.achieved = isAchieved;
 	}
 
 	public String getMonthName() {
@@ -46,12 +46,14 @@ public class MonthRecordDTO {
 		this.monthSavedMoney = monthSavedMoney;
 	}
 
-	public boolean isAchieved() {
-		return isAchieved;
+
+
+	public boolean getAchieved() {
+		return achieved;
 	}
 
-	public void setAchieved(boolean isAchieved) {
-		this.isAchieved = isAchieved;
+	public void setAchieved(boolean achieved) {
+		this.achieved = achieved;
 	}
 
 	public int getMonthIndex() {
@@ -60,6 +62,12 @@ public class MonthRecordDTO {
 
 	public void setMonthIndex(int monthIndex) {
 		this.monthIndex = monthIndex;
+	}
+
+	@Override
+	public String toString() {
+		return "MonthRecordDTO [monthIndex=" + monthIndex + ", monthName=" + monthName + ", monthSaveGoal="
+				+ monthSaveGoal + ", monthSavedMoney=" + monthSavedMoney + ", isAchieved=" + achieved + "]";
 	}
 
 	
