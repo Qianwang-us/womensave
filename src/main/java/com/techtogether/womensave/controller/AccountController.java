@@ -45,16 +45,28 @@ public class AccountController {
 		//after user successfully login, forwards to user dashboard
 		session.setAttribute("currentUser", retrievedUser);
 		
-		return "dashboard";
+		return "redirect:/dashboard";
 	}
 	
 	@GetMapping("/register")
-	public String register() {
+	public String register(Model model) {
+		User user= new User();
+		model.addAttribute("user", user);
+		
 		return "register";
 	}
 	
 	@PostMapping("/register/save")
-	public String registerSave(@ModelAttribute("user") User user) {
-		return "register";
+	public String registerSave(@ModelAttribute("user") User user, Model model) {
+		try {
+			userRepository.save(user);
+		}catch(Exception e) {
+			model.addAttribute("message", "duplicated email, please try again");
+			return "error";
+		}
+		
+		model.addAttribute("message", "you've registered successfuly");
+		model.addAttribute("user", new User());
+		return "login";
 	}
 }
